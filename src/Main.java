@@ -1,3 +1,4 @@
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -8,9 +9,20 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    Heros toto;
+    Camera ction;
+
+    AnimationTimer unAutreJour = new AnimationTimer() {
+        @Override
+        public void handle(long l) {
+            toto.updateImageViewInScene(ction,l);
+        }
+    };
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        toto=new Heros(1050,300);
+        ction= new Camera(1000,0);
 
         primaryStage.setTitle("Hello world");
         Group root = new Group();
@@ -18,12 +30,11 @@ public class Main extends Application {
         Scene theScene = new Scene(pane, 600, 400,true);
         primaryStage.setScene(theScene);
 
-        primaryStage.show();
+        root.getChildren().add(toto.getImageView());
 
-        Image heros = new Image("file:./img/heros.png");
-        ImageView herosView = new ImageView(heros);
-        herosView.setViewport(new Rectangle2D(20,0,65,100));
-        root.getChildren().add(herosView);
+        primaryStage.show();
+        unAutreJour.start();
+
     }
 
 
